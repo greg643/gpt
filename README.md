@@ -32,7 +32,7 @@ Keep in mind that this is all muggle level stuff - simple routines, so we can un
 
 ## Special Notes
 
-1) This has been updated so it supports either GPT-3.5 or GPT-4. Switching back and forth is interesting - you need to adjust the max tokens, which is governed by the length of the question, the size of your vectors, and the number of vectors you request. This was mostly developed with GPT-4 which has an 8k token limit, but I verified that it works with GPT-3.5 as well. As you use this, there may be some token caps etc.
+1) This has been updated so it supports either GPT-3.5 or GPT-4. Switching back and forth requires navigating the size of vector chunks, and the tokens in an API call. This was mostly developed with GPT-4 which has an 8k token limit, but I verified that it works with GPT-3.5 as well. I think this is now handled, but there may be some token caps etc.
 
 2) Since I originally created this, I believe the Pinecone vector database is not strictly needed - apparently, I can do the semantic search from the embeddings I've already created and have in memory. We have pretty light dependencies on pinecone as it stands, so not a huge deal. This approach is overcomplicated because it is adapted from examples of custom document databases. 
 
