@@ -6,17 +6,17 @@ GPT is probably the perfect synthesis of Marc Andreesen's "wordcels" and "shape 
 
 <blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">Why do wordcels win head to head fights with shape rotators? Shape rotators spend 90% of their time rotating shapes and only 10% wordcelling; wordcels wordcel 24x7. Asymmetric warfare, outcome predetermined.</p>&mdash; Marc Andreessen (@pmarca) <a href="https://twitter.com/pmarca/status/1488985078545874944">Feb 2, 2022</a></blockquote>
 
-(Although - more than likely - each tribe will just use GPT to wordcel and shape rotate even harder...)
+Although - more than likely - each tribe will just use GPT to wordcel and shape rotate even harder. But I digress.
 
 ## The Verbal Chainsaw
 
 The capability I have been most interested in for GPT is what I call the "verbal chainsaw," something that can help me make sense of an almost baffling amount of regulatory rules, academic papers and various rules and filings that I need to read to understand aspects of my work.
 
-I think my fundamental belief is that with the verbal chainsaw, we can probably now more confidently assess a specific domain, to extract specific insights from folks who have done deep and careful work, to advance our understanding.
+I think my fundamental belief is that with the verbal chainsaw, we can more confidently assess a specific domain, and extract specific insights from folks who have done deep and careful work, to advance our understanding.
 
 Although I was originally trained as a wordcel, with age and new skills, and maybe just age, I have lost an enormous amount of patience for reading dry material, although I have an almost endless amount of time and energy to read.
 
-So - in order to unlock these capabilities, I wanted to see if I could create a solution for this. I learned immediately that dumping large texts into ChatGPT caps out quickly, not to mention the tedium of copying data in - there has to be a better way.
+So - in order to unlock these capabilities, I wanted to see if I could create a solution. I learned immediately that dumping large texts into ChatGPT caps out quickly, not to mention the tedium of copying data in - there has to be a better way.
 
 ## Enter the Vector Database
 
