@@ -30,11 +30,11 @@ This particular solution is made more powerful by use of GPT-4, which allows acc
 
 Keep in mind that this is all muggle level stuff - simple routines, so we can understand what is happening with our document and code. Once the use case is working well, this process can scale!
 
-## Special Note
+## Special Notes
 
-Since I originally created this, I have learned that the vector database is not strictly needed - apparently, I can do the semantic search on a single document from the embeddings I've already created and have in memory. 
+1) This is all written assuming GPT-4. You can switch the model to GPT 3.5 but we also need to adjust the max tokens and that is not currently functionalized. Will update this with a version that has global model config, and a global max tokens, so this is more flexible.
 
-This approach is somewhat overcomplicated because I adapted it from people who were creating custom document databases, which led me down the road of using a vector database. 
+2) Since I originally created this, I have learned that the vector database is not strictly needed - apparently, I can do the semantic search from the embeddings I've already created and have in memory. We have pretty light dependencies on pinecone as it stands, so not a huge deal. This approach is somewhat overcomplicated because I adapted it from people who were creating custom document databases, which led me down the road of using a vector database. 
 
 OpenAI's recently published example:
 
