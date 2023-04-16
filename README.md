@@ -41,7 +41,56 @@ For Python, you will need most of these, might as well install them all:
 ```
 pip install pdfminer.six requests pytesseract openai requests nltk bs4 xmltodict pinecone-client tiktoken pdf2image markdown plotly
 ```
-The core routine is below:
+You will also need to import all of the libraries and functions stored in https://github.com/greg643/gpt/blob/main/gpt_routines.py
 
-The core libraries are:
+## Core Python Routine
+
+The core python routine is below:
+
+```
+####
+#### DOCUMENT EXTRACTOR
+####
+
+file_name = '/Users/greg/Dropbox/_Industry Papers/IEX_Comment_Letter_s73022-20160364-328968.pdf'
+
+text = extract_text(file_name)
+
+# Verify we have what we want
+print(text)
+
+#simple function to clean pdf extracts
+text = clean_extracted_text(text)
+
+####
+#### UPLOAD YOUR DOCUMENT TO PINECONE
+####
+
+# Each Vector will have a unqiue ID - for now, we are using python uuids + chunk numbers
+# For various reasons, I am handling everything as dataframes.
+
+uuid = str(uuid4())
+new_row = {
+            'GUID': uuid,
+            'Name': file_name, 
+            'Link': 'Link', 
+            'Tokens': num_tokens_from_string(text), #, "cl100k_base"
+            'Text': text,
+            }
+
+new_df = pd.DataFrame([new_row])
+
+chunk_to_pinecone(new_df)
+
+####
+#### ASK QUESTIONS
+####
+
+question = 'what does this letter say about the proposed structure for retail auctions?'
+
+ask(question)
+```
+
+Obviously this could be coded into a webite etc - for now you can just enter questions into python and run over and over.
+
 
