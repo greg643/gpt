@@ -91,4 +91,5 @@ ask(question)
 
 Obviously this could be coded into a webite etc - for now you can just enter questions into python and run over and over.
 
-
+Enjoy, and please send feedback/suggestions!
+Greg
