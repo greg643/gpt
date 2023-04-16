@@ -10,9 +10,9 @@ GPT is probably the perfect synthesis of Marc Andreesen's "wordcels" and "shape 
 
 ## The Verbal Chainsaw
 
-The capability I have been most interested in for GPT is what I call the "verbal chainsaw," something that can help me make sense of an almost baffling amount of regulatory rules, academic papers and various rules and filings that I need to read to understand aspects of my work.
+The capability I have been most interested in for GPT is what I call the "verbal chainsaw," something that can help me make sense of an almost baffling amount of regulatory rules, academic papers and various rules and filings to understand aspects of my work.
 
-I think my fundamental belief is that with the verbal chainsaw, we can probably now more confidently assess a specific domain, to extract specific insights from folks who have done deep and careful work, to advance our understanding.
+I think my fundamental belief is that with the verbal chainsaw, we can more confidently assess a specific domain, and extract specific insights from folks who have done deep and careful work, to advance our understanding.
 
 Although I was originally trained as a wordcel, with age and new skills, and maybe just age, I have lost an enormous amount of patience for reading dry material, although I have an almost endless amount of time and energy to read.
 
@@ -28,7 +28,7 @@ When the user asks a question of a very large document, the vector database is e
 
 The magic here, is that the the vector database acts as a sort of missing memory for GPT, which is essential when you don't want it to just free associate an answer, but when you want a specific answer from a piece of information, and to return back for additional insights.
 
-This particular solution is made more powerful by use of GPT-4, which allows access to the best GPT engine with higher token limits, along with the memory veatures of the Pinecone vector database.
+This particular solution is made more powerful by use of GPT-4, which allows access to the best GPT engine, with higher token limits, along with the memory veatures of the Pinecone vector database.
 
 Keep in mind that this is all muggle level stuff - simple routines, so we can understand what is happening with our document and code. However, once the use case is working well, this process can scale!
 
