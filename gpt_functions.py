@@ -51,13 +51,35 @@ from nltk.tokenize import word_tokenize
 import tiktoken
 
 """
-API Keys
+API Keys & Identifiers
 
+* The magic of the GPT-4 is quality and size of inputs. 
+* To bounce back and forth between 3.5 and 4, you need to be able to dynamically adust the max tokens.
+* The combined question and answer, plus summarization, impose limits. 
+* So I've made the max tokens formula driven so they are hopefully adaptable.
+
+In each of the sections below, there are global variables that allow this to work:
+* Global Max Tokens - this is slightly under the actual, for some wiggle room
+* Completions - this controls the number of semantic matches returned, which are basically vectors containing the matches.
+* The vector size can be similarly adjusted to adapt to the desired completion size + max token constraint. 
+
+For the time being, vector size is a plug.
 """
 
 #### OpenAI API Key
 
-os.environ["OPENAI_API_KEY"] = 'XXXXXXXXX'
+###GPT 4
+os.environ["OPENAI_API_KEY"] = 'sk-XXXXXXXXX'
+global_model="gpt-4"
+global_max_tokens = 8000
+global_completions = 4
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+###GPT 3.5
+os.environ["OPENAI_API_KEY"] = 'sk-XXXXXXXXX'
+global_model="gpt-3.5-turbo"
+global_max_tokens = 4000
+global_completions = 3
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #### Pinecone API key
@@ -101,7 +123,7 @@ def clean_extracted_text(text):
 ##### CHUNK INPUT TEXT
 #####
 
-def break_up_file_to_chunks(text, chunk_size=3500, overlap_size=100):
+def break_up_file_to_chunks(text, chunk_size=int(global_max_tokens/4), overlap_size=100):
     tokens = word_tokenize(text)
     return list(break_up_file(tokens, chunk_size, overlap_size))
 
@@ -155,7 +177,6 @@ def chunk_to_pinecone(df):
     df_return = pd.DataFrame(columns=['GUID', 'Name', 'Link', 'Tokens', 'Chunk Number', 'Chunk Text', 'Embeddings'])
 
     #THIS IS OUR PINECONE DATABASE
-    #I was originaly using the langchain APIs but felt they were too abstracted - wanted to be able to do this in a more raw format.
     index_name = "langchain3"
     
     # Initialize connection to Pinecone
@@ -179,7 +200,7 @@ def chunk_to_pinecone(df):
     #for i, row in df_raw.iloc[0:1].iterrows():
         
     text = str(df['Text'][0])     
-    text_chunks = break_up_file_to_chunks(text, chunk_size = 1250)
+    text_chunks = break_up_file_to_chunks(text, chunk_size = 1000)
 
     #for chunk in text_chunks:
     for i, chunk in enumerate(text_chunks):
@@ -232,7 +253,17 @@ def chunk_to_pinecone(df):
     print(index.describe_index_stats())
 
 
+"""
+KEY FUNCTION #2:
+ASK A QUESTION OF THE PINECONE DOCUMENT
+
+This function assumes you have uploaded a vectorized document to Pinecone
+Will simply ask one question at a time of that document, and return to the window.
+"""
+
 def ask(question):
+    #question = questions['Tick Size Reform'][0]                
+    # question = 'Does the text support access fee reform?'
     
     prompt_instr = " please limit your answer strictly to this question, and if the answer is unclear, please respond that the letter does not specifically address the question. "
               
@@ -260,7 +291,7 @@ def ask(question):
     query_embeds = embed_query['data'][0]['embedding']
     
     # get relevant contexts (including the questions)
-    response = index.query(query_embeds, top_k=4, include_metadata=True)
+    response = index.query(query_embeds, top_k=global_completions, include_metadata=True)
     #, filter={"GUID": {"$eq": "1aee345a-82e0-4d70-88fc-15073c362c92"}} 
     
     contexts = [item['metadata']['Text'] for item in response['matches']]
@@ -272,9 +303,8 @@ def ask(question):
     """
     
     chat = openai.ChatCompletion.create(
-        model="gpt-4",
-        #model="gpt-3.5-turbo",
-        max_tokens=2000,
+        model=global_model,
+        max_tokens=int(global_max_tokens-3000),
         temperature=0,
         messages=[
             {"role": "system", "content": system_msg},
@@ -287,73 +317,3 @@ def ask(question):
     answer = chat['choices'][0]['message']['content'].strip()
     print(answer)
     return
-
-
-"""
-KEY FUNCTION #2:
-ASK A QUESTION OF THE PINECONE DOCUMENT
-
-This function assumes you have uploaded a vectorized document to Pinecone
-Will simply ask one question at a time of that document, and return to the window.
-"""
-
-def ask(question):
-    #question = questions['Tick Size Reform'][0]                
-    # question = 'Does the text support access fee reform?'
-    
-    prompt_instr = " please limit your answer strictly to this question, and if the answer is unclear, please respond that the text does not specifically address the question."
-              
-    #THIS IS OUR PINECONE DATABASE
-    index_name = "langchain3"
-    
-    embed_model = 'text-embedding-ada-002'
-    
-    # Initialize connection to Pinecone
-    pinecone.init(
-    api_key=PINECONE_API_KEY, 
-    environment=PINECONE_API_ENV
-    )
-    
-    # Connect to the index and view index stats
-    index = pinecone.Index(index_name)
-    index.describe_index_stats()
-    
-    user_input = question + prompt_instr
-    
-    embed_query = openai.Embedding.create(
-        input=user_input,
-        engine=embed_model
-    )
-    
-    # retrieve from Pinecone
-    query_embeds = embed_query['data'][0]['embedding']
-    
-    # get relevant contexts (including the questions)
-    response = index.query(query_embeds, top_k=4, include_metadata=True)
-    #, filter={"GUID": {"$eq": "1aee345a-82e0-4d70-88fc-15073c362c92"}} 
-    
-    contexts = [item['metadata']['Text'] for item in response['matches']]
-    
-    augmented_query = "\n\n---\n\n".join(contexts)+"\n\n-----\n\n"+user_input # + query
-    
-    # system message to assign role the model
-    system_msg = f"""You are a helpul machine learning assistant and tutor. Answer questions based on the context provided, provide support for your answer, or say Unable to find reference."
-    """
-    
-    chat = openai.ChatCompletion.create(
-        model="gpt-4",
-        #model="gpt-3.5-turbo",
-        max_tokens=2000,
-        temperature=0,
-        messages=[
-            {"role": "system", "content": system_msg},
-            {"role": "assistant", "content": "\n".join(contexts)},
-            {"role": "user", "content": question}
-        
-        ]
-    )
-    
-    answer = chat['choices'][0]['message']['content'].strip()
-    print(answer)
-    return
-    
