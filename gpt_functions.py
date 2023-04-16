@@ -94,6 +94,9 @@ headers = {
     'From': 'name@email.com' 
 }
 
+#### Global Embed Model - gpt3.5 and 4 compatible
+
+mbed_model = 'text-embedding-ada-002'
 
 """
 Helper Functions:
