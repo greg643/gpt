@@ -10,7 +10,7 @@ GPT is probably the perfect synthesis of Marc Andreesen's "wordcels" and "shape 
 
 The capability I have been most interested in for GPT is what I call the "verbal chainsaw," something that can help me make sense of an almost baffling amount of regulatory rules, academic papers and various rules and filings that I feel I need to read to understand my field.
 
-The goal hers is that with the verbal chainsaw, we can more confidently assess a specific domain, and extract specific insights from folks who have done deep and careful work, to advance our understanding.
+The goal here is that with the verbal chainsaw, we can more confidently assess a specific domain, and extract specific insights from folks who have done deep and careful work, to advance our understanding.
 
 Using the ChatGPT web interface, I learned immediately that dumping large texts into ChatGPT caps out quickly, not to mention the tedium of copying data in - there has to be a better way.
 
