@@ -53,24 +53,23 @@ import tiktoken
 """
 API Keys
 
-Yes, I know. I trust you.
 """
 
 #### OpenAI API Key
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = 'XXXXXXXXX'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #### Pinecone API key
 
-PINECONE_API_KEY = '6cdc78da-7ca2-4b6e-9b5f-ddaadfa753c7'
+PINECONE_API_KEY = 'XXXXXXXX'
 PINECONE_API_ENV = 'us-central1-gcp'
 
 #### SEC User Identification
 
 headers = {
-    'User-Agent': 'Greg Ludvik',
-    'From': 'greg@gregludvik.com'  # This is another valid field
+    'User-Agent': 'Your Name',
+    'From': 'name@email.com'  # This is another valid field
 }
 
 
@@ -231,8 +230,6 @@ def chunk_to_pinecone(df):
 
 
 def ask(question):
-    #question = questions['Tick Size Reform'][0]                
-    # question = 'Does the text support access fee reform?'
     
     prompt_instr = " please limit your answer strictly to this question, and if the answer is unclear, please respond that the letter does not specifically address the question. "
               
