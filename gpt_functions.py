@@ -69,7 +69,7 @@ PINECONE_API_ENV = 'us-central1-gcp'
 
 headers = {
     'User-Agent': 'Your Name',
-    'From': 'name@email.com'  # This is another valid field
+    'From': 'name@email.com' 
 }
 
 
@@ -132,14 +132,16 @@ def num_tokens_from_string(string: str, encoding_name ="cl100k_base") -> int:
 KEY FUNCTION #1:
 CHUNK A DOCUMENT TO PINECONE
 
-This function assumes you have already extracted some datasource to clean text.
+This function assumes you have already extracted some data source to clean text. 
+Your source can be anything, just as long as the variable "text" is a clean string. 
+I've included some PDF examples because that is common, but you could also use HTML text etc.
 
-It uses the helper functions to:
+The code below uses helper functions to:
 * Chunk your text into various sizes
 * Call the OpenAI embeddings API
 * Store the embeddings as vectors in Pinecone 
 
-Because this is muggle-level stuff, I have a deus-ex-machina in here, in that:
+Some of the muggle magic in here:
 * Using a free Pinecone database - everything in one database
 * I try to avoid any helper libraries - eg, langchain - I'm trying to stay as close to what I consider "base" APIs
 * I just delete the vector DB every time this is called, so you're guaranteed to be looking at one document at a time.
@@ -153,6 +155,7 @@ def chunk_to_pinecone(df):
     df_return = pd.DataFrame(columns=['GUID', 'Name', 'Link', 'Tokens', 'Chunk Number', 'Chunk Text', 'Embeddings'])
 
     #THIS IS OUR PINECONE DATABASE
+    #I was originaly using the langchain APIs but felt they were too abstracted - wanted to be able to do this in a more raw format.
     index_name = "langchain3"
     
     # Initialize connection to Pinecone
