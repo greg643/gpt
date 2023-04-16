@@ -39,7 +39,10 @@ For Python, you will need most of these, might as well install them all:
 ```python
 pip install pdfminer.six requests pytesseract openai requests nltk bs4 xmltodict pinecone-client tiktoken pdf2image markdown plotly
 ```
-You will also need to import all of the libraries and functions found in: https://github.com/greg643/gpt/blob/main/gpt_routines.py
+
+You will also need to import all of the libraries and functions found here: 
+
+https://github.com/greg643/gpt/blob/main/gpt_functions.py
 
 ## Core Python Routine
 
