@@ -73,13 +73,15 @@ os.environ["OPENAI_API_KEY"] = 'sk-XXXXXXXXX'
 global_model="gpt-4"
 global_max_tokens = 8000
 global_completions = 4
+global_chunk_size = 1000 #gpt4 can handle bigger chunks
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 ###GPT 3.5
 os.environ["OPENAI_API_KEY"] = 'sk-XXXXXXXXX'
 global_model="gpt-3.5-turbo"
 global_max_tokens = 4000
-global_completions = 3
+global_completions = 4
+global_chunk_size = 500 #gpt-3.5 works better with smaller vector chunks
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #### Pinecone API key
@@ -203,7 +205,7 @@ def chunk_to_pinecone(df):
     #for i, row in df_raw.iloc[0:1].iterrows():
         
     text = str(df['Text'][0])     
-    text_chunks = break_up_file_to_chunks(text, chunk_size = 1000)
+    text_chunks = break_up_file_to_chunks(text, chunk_size = global_chunk_size)
 
     #for chunk in text_chunks:
     for i, chunk in enumerate(text_chunks):
