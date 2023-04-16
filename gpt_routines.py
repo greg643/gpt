@@ -300,6 +300,8 @@ def ask(question):
     #THIS IS OUR PINECONE DATABASE
     index_name = "langchain3"
     
+    embed_model = 'text-embedding-ada-002'
+    
     # Initialize connection to Pinecone
     pinecone.init(
     api_key=PINECONE_API_KEY, 
