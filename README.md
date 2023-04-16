@@ -36,7 +36,7 @@ Keep in mind that this is all muggle level stuff - simple routines, so we can un
 
 For Python, you will need most of these, might as well install them all:
 
-```
+```python
 pip install pdfminer.six requests pytesseract openai requests nltk bs4 xmltodict pinecone-client tiktoken pdf2image markdown plotly
 ```
 You will also need to import all of the libraries and functions found in: https://github.com/greg643/gpt/blob/main/gpt_routines.py
@@ -45,10 +45,10 @@ You will also need to import all of the libraries and functions found in: https:
 
 The core python routine to extract from a document is below. I'm including a PDF that already has an OCR layer.
 
-```
-####
-#### DOCUMENT EXTRACTOR
-####
+```python
+"""
+DOCUMENT EXTRACTOR
+"""
 
 file_name = '/Users/greg/Dropbox/_Industry Papers/IEX_Comment_Letter_s73022-20160364-328968.pdf'
 
@@ -60,9 +60,9 @@ print(text)
 #simple function to clean pdf extracts
 text = clean_extracted_text(text)
 
-####
-#### UPLOAD YOUR DOCUMENT TO PINECONE
-####
+"""
+UPLOAD YOUR DOCUMENT TO PINECONE
+"""
 
 # Each Vector will have a unqiue ID - for now, we are using python uuids + chunk numbers
 # For various reasons, I am handling everything as dataframes.
@@ -80,9 +80,9 @@ new_df = pd.DataFrame([new_row])
 
 chunk_to_pinecone(new_df)
 
-####
-#### ASK QUESTIONS
-####
+"""
+ASK QUESTIONS
+"""
 
 question = 'what does this letter say about the proposed structure for retail auctions?'
 
