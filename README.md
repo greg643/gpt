@@ -6,31 +6,39 @@ GPT is probably the perfect synthesis of Marc Andreesen's "wordcels" and "shape 
 
 <blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">Why do wordcels win head to head fights with shape rotators? Shape rotators spend 90% of their time rotating shapes and only 10% wordcelling; wordcels wordcel 24x7. Asymmetric warfare, outcome predetermined.</p>&mdash; Marc Andreessen (@pmarca) <a href="https://twitter.com/pmarca/status/1488985078545874944">Feb 2, 2022</a></blockquote>
 
-Although - more than likely - each tribe will just use GPT to wordcel and shape rotate even harder. But I digress.
-
 ## The Verbal Chainsaw
 
-The capability I have been most interested in for GPT is what I call the "verbal chainsaw," something that can help me make sense of an almost baffling amount of regulatory rules, academic papers and various rules and filings that I need to read to understand aspects of my work.
+The capability I have been most interested in for GPT is what I call the "verbal chainsaw," something that can help me make sense of an almost baffling amount of regulatory rules, academic papers and various rules and filings that I feel I need to read to understand my field.
 
-I think my fundamental belief is that with the verbal chainsaw, we can more confidently assess a specific domain, and extract specific insights from folks who have done deep and careful work, to advance our understanding.
+The goal hers is that with the verbal chainsaw, we can more confidently assess a specific domain, and extract specific insights from folks who have done deep and careful work, to advance our understanding.
 
-Although I was originally trained as a wordcel, with age and new skills, and maybe just age, I have lost an enormous amount of patience for reading dry material, although I have an almost endless amount of time and energy to read.
+Using the ChatGPT web interface, I learned immediately that dumping large texts into ChatGPT caps out quickly, not to mention the tedium of copying data in - there has to be a better way.
 
-So - in order to unlock these capabilities, I wanted to see if I could create a solution. I learned immediately that dumping large texts into ChatGPT caps out quickly, not to mention the tedium of copying data in - there has to be a better way.
+Inspired by a number of projects I saw online, I wanted to create something that I could use on-demand, for my exact objectives, without the limits imposed by a third party tool (interfaces, outputs, gpt models, etc). 
 
 ## Enter the Vector Database
 
-Everyone is very excited about ChatGPT and rightly so, but with token limits being what they are, the expert user soon realizes that the transformational capability of an LLM is what is called a "vector database." 
+With token limits being what they are, I soon realized that the transformational capability of an LLM can't really be unlocked without the ability to query over specific data, which requires something called a "vector database." 
 
-A vector database is a way to store "embeddings," or vector representations of specific documents, particularly very large documents that are too big for a single GPT prompt. 
+A vector database is a way to store "embeddings," or vector representations of specific documents, particularly very large documents that are too big for a single GPT prompt, or even collections of documents, such as an entire confluence site.
 
-When the user asks a question of a very large document, the vector database is employed to provide a semantic search, returning a set number of items that appear to answer the question. These semantic matches are then fed to GPT along with a specific question for an answer, and GPT does the hard work of creating meaning from the matches.
+When the user asks a question of a very large document, the vector database is employed to provide a semantic search, returning a set number of items that appear to answer the question. These "semantic matches" are the precursor to an answer, as blocks of text that might have the answer, then are then fed to GPT along with a specific question for an answer. GPT does the hard work of creating meaning from the matches, and since it only processes the excerpts, we work around token limits.
 
 The magic here, is that the the vector database acts as a sort of missing memory for GPT, which is essential when you don't want it to just free associate an answer, but when you want a specific answer from a piece of information, and to return back for additional insights.
 
-This particular solution is made more powerful by use of GPT-4, which allows access to the best GPT engine with higher token limits, along with the memory veatures of the Pinecone vector database.
+This particular solution is made more powerful by use of GPT-4, which allows access to the best GPT engine with higher token limits, along with the memory veatures of the Pinecone vector database. However, it also works with GPT3.5, but need to adjust token limits accordingly.
 
-Keep in mind that this is all muggle level stuff - simple routines, so we can understand what is happening with our document and code. However, once the use case is working well, this process can scale!
+Keep in mind that this is all muggle level stuff - simple routines, so we can understand what is happening with our document and code. Once the use case is working well, this process can scale!
+
+## Special Note
+
+Since I originally created this, I have learned that the vector database is not strictly needed - apparently, I can do the semantic search on a single document from the embeddings I've already created and have in memory. 
+
+This approach is somewhat overcomplicated because I adapted it from people who were creating custom document databases, which led me down the road of using a vector database. 
+
+OpenAI's recently published example:
+
+https://github.com/openai/openai-cookbook/blob/main/examples/Question_answering_using_embeddings.ipynb
 
 ## Prerequisites
 
@@ -42,9 +50,9 @@ pip install pdfminer.six requests pytesseract openai requests nltk bs4 xmltodict
 
 ## Core Python Routine
 
-The core python routine to extract from a document is below. I'm including a PDF that already has an OCR layer.
+The core python routine to extract from a document is below. I'm including a PDF that already has a text layer, so no OCR is required.
 
-For this to work, you will also need to import all of the libraries and functions found in: https://github.com/greg643/gpt/blob/main/gpt_routines.py
+For this to work, you will also need to import all of the libraries and functions found in: https://github.com/greg643/gpt/blob/main/gpt_functions.py
 
 ```python
 ####
@@ -84,8 +92,8 @@ uuid = str(uuid4())
 new_row = {
             'GUID': uuid,
             'Name': file_name, 
-            'Link': 'Link', 
-            'Tokens': num_tokens_from_string(text), #, "cl100k_base"
+            'Link': 'Link', ##detritus, leave alone
+            'Tokens': num_tokens_from_string(text), 
             'Text': text,
             }
 
