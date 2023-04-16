@@ -56,24 +56,30 @@ API Keys
 Yes, I know. I trust you.
 """
 
-#####    
-##### OPEN AI & PINE CONE
-#####
+#### OpenAI API Key
 
-# openai.api_key = "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";
 os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# pinecone API key
+#### Pinecone API key
+
 PINECONE_API_KEY = '6cdc78da-7ca2-4b6e-9b5f-ddaadfa753c7'
 PINECONE_API_ENV = 'us-central1-gcp'
 
+#### SEC User Identification
+
+headers = {
+    'User-Agent': 'Greg Ludvik',
+    'From': 'greg@gregludvik.com'  # This is another valid field
+}
+
 
 """
-Critical Helper Functions:
+Helper Functions:
 Counting Tokens & Chunking Text
 
 Using "tiktoken" counter which is the most precise estimator for GPT-4
+Not all of these are needed but I'm including them all for now.
 """
 
 #####
@@ -128,14 +134,15 @@ KEY FUNCTION #1:
 CHUNK A DOCUMENT TO PINECONE
 
 This function assumes you have already extracted some datasource to clean text.
-It will use various helper functions to:
+
+It uses the helper functions to:
 * Chunk your text into various sizes
 * Call the OpenAI embeddings API
 * Store the embeddings as vectors in Pinecone 
 
 Because this is muggle-level stuff, I have a deus-ex-machina in here, in that:
 * Using a free Pinecone database - everything in one database
-* I try to avoid any helper libraries - eg, langchain - I'm trying to stay as close to base APIs as possible
+* I try to avoid any helper libraries - eg, langchain - I'm trying to stay as close to what I consider "base" APIs
 * I just delete the vector DB every time this is called, so you're guaranteed to be looking at one document at a time.
 
 There is some detritus in all of these functions, because I'm using these functions for a bunch of other projects.
@@ -280,7 +287,8 @@ def ask(question):
     answer = chat['choices'][0]['message']['content'].strip()
     print(answer)
     return
-  
+
+
 """
 KEY FUNCTION #2:
 ASK A QUESTION OF THE PINECONE DOCUMENT
@@ -288,8 +296,6 @@ ASK A QUESTION OF THE PINECONE DOCUMENT
 This function assumes you have uploaded a vectorized document to Pinecone
 Will simply ask one question at a time of that document, and return to the window.
 """
- 
-
 
 def ask(question):
     #question = questions['Tick Size Reform'][0]                
