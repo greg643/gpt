@@ -39,11 +39,12 @@ For Python, you will need most of these, might as well install them all:
 ```
 pip install pdfminer.six requests pytesseract openai requests nltk bs4 xmltodict pinecone-client tiktoken pdf2image markdown plotly
 ```
-You will also need to import all of the libraries and functions found in: https://github.com/greg643/gpt/blob/main/gpt_routines.py
 
 ## Core Python Routine
 
 The core python routine to extract from a document is below. I'm including a PDF that already has an OCR layer.
+
+For this to work, you will also need to import all of the libraries and functions found in: https://github.com/greg643/gpt/blob/main/gpt_routines.py
 
 ```
 
