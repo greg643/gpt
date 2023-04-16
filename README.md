@@ -1,6 +1,8 @@
 ## GPT & Vector Databases
-### (or, fun with GPT4 &amp; pinecone)
+(or, fun with GPT4 &amp; pinecone)
 
+
+## Now, every shape rotator can wordcel!
 
 GPT is probably the perfect synthesis of Marc Andreesen's "wordcels" and "shape rotators". Every shape rotator can now have the skills of a master wordcel, and every wordcel can learn to be shape rotator! 
 
