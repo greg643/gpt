@@ -2,6 +2,9 @@
 Required Libraries to Import
 """
 
+#you need to install most of these:
+#pip install pdfminer.six requests pytesseract openai requests nltk bs4 xmltodict pinecone-client tiktoken pdf2image markdown plotly
+
 #generic
 import platform
 import os
@@ -72,6 +75,22 @@ Counting Tokens & Chunking Text
 
 Using "tiktoken" counter which is the most precise estimator for GPT-4
 """
+
+#####
+##### CLEAN AN IMPORTED PDF
+#####
+
+def clean_extracted_text(text):
+    text = re.sub(r'\s+', ' ', text)  # remove extra white spaces
+    text = re.sub(r'\n+', '\n', text)  # remove extra new lines
+    text = re.sub(r'(\n\s*)+', '\n', text)  # remove extra spaces at the start of each line
+    text = re.sub(r'\x0c', '', text)  # remove form feed characters
+    text = re.sub(r'\u200b', '', text)  # remove zero width spaces
+    #bad character list
+    bad_chars = ['\xd7', '\n', '\x99m', "\xf0", '\uf8e7'] 
+    for i in bad_chars : 
+        text = text.replace(i, '') 
+    return text
 
 #####
 ##### CHUNK INPUT TEXT
