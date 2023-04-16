@@ -1,14 +1,15 @@
-## GPT & Vector Databases
+# GPT & Vector Databases
 (or, fun with GPT4 &amp; pinecone)
 
 
-## Now, every shape rotator can wordcel!
+
+### Now, every shape rotator can wordcel!
 
 GPT is probably the perfect synthesis of Marc Andreesen's "wordcels" and "shape rotators". Every shape rotator can now have the skills of a master wordcel, and every wordcel can learn to be shape rotator! 
 
 <blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">Why do wordcels win head to head fights with shape rotators? Shape rotators spend 90% of their time rotating shapes and only 10% wordcelling; wordcels wordcel 24x7. Asymmetric warfare, outcome predetermined.</p>&mdash; Marc Andreessen (@pmarca) <a href="https://twitter.com/pmarca/status/1488985078545874944">Feb 2, 2022</a></blockquote>
 
-## The Verbal Chainsaw
+### The Verbal Chainsaw
 
 The capability I have been most interested in for GPT is what I call the "verbal chainsaw," something that can help me make sense of an almost baffling amount of regulatory rules, academic papers and various rules and filings that I feel I need to read to understand my field.
 
@@ -32,7 +33,7 @@ This particular solution is made more powerful by use of GPT-4, which allows acc
 
 Keep in mind that this is all muggle level stuff - simple routines, so we can understand what is happening with our document and code. Once the use case is working well, this process can scale!
 
-## Special Notes
+### Special Notes
 
 1) This has been updated so it supports either GPT-3.5 or GPT-4. Switching back and forth requires navigating the size of vector chunks, and the tokens in an API call. This was mostly developed with GPT-4 which has an 8k token limit, but I verified that it works with GPT-3.5 as well. I think this is now handled, but there may be some token caps etc.
 
@@ -42,7 +43,7 @@ OpenAI's recently published example:
 
 https://github.com/openai/openai-cookbook/blob/main/examples/Question_answering_using_embeddings.ipynb
 
-## Prerequisites
+### Prerequisites
 
 For Python, you will need most of these, might as well install them all:
 
@@ -50,7 +51,7 @@ For Python, you will need most of these, might as well install them all:
 pip install pdfminer.six requests pytesseract openai requests nltk bs4 xmltodict pinecone-client tiktoken pdf2image markdown plotly
 ```
 
-## Core Python Routine
+### Core Python Routine
 
 The core python routine to extract from a document is below. I'm including a PDF that already has a text layer, so no OCR is required.
 
