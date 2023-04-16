@@ -32,9 +32,9 @@ Keep in mind that this is all muggle level stuff - simple routines, so we can un
 
 ## Special Notes
 
-1) This is all written assuming GPT-4. You can switch the model to GPT 3.5 but we also need to adjust the max tokens and that is not currently functionalized. Will update this with a version that has global model config, and a global max tokens, so this is more flexible.
+1) This has been updated so it supports either GPT-3.5 or GPT-4. Switching back and forth is interesting - you need to adjust the max tokens, which is governed by the length of the question, the size of your vectors, and the number of vectors you request. This was mostly developed with GPT-4 which has an 8k token limit, but I verified that it works with GPT-3.5 as well. As you use this, there may be some token caps etc.
 
-2) Since I originally created this, I have learned that the vector database is not strictly needed - apparently, I can do the semantic search from the embeddings I've already created and have in memory. We have pretty light dependencies on pinecone as it stands, so not a huge deal. This approach is somewhat overcomplicated because I adapted it from people who were creating custom document databases, which led me down the road of using a vector database. 
+2) Since I originally created this, I believe the Pinecone vector database is not strictly needed - apparently, I can do the semantic search from the embeddings I've already created and have in memory. We have pretty light dependencies on pinecone as it stands, so not a huge deal. This approach is overcomplicated because it is adapted from examples of custom document databases. 
 
 OpenAI's recently published example:
 
@@ -63,17 +63,23 @@ url = 'https://www.sec.gov/comments/s7-30-22/s73022-20160364-328968.pdf'
 
 r = requests.get(url, headers=headers, allow_redirects=True)
 
+# pdfminer.six, a great library
 text = extract_text(io.BytesIO(r.content))
 
+# helper function to remove characters
 text = clean_extracted_text(text)
+
+# verify we have what we want
+print(text)
 
 ####
 #### EXTRACT FROM A SAVED PDF
 ####
 
-file_name = '/Users/greg/Dropbox/_Industry Papers/IEX_Comment_Letter_s73022-20160364-328968.pdf'
+# recycling the url variable
+url = '/Users/greg/Dropbox/_Industry Papers/IEX_Comment_Letter_s73022-20160364-328968.pdf'
 
-text = extract_text(file_name)
+text = extract_text(url)
 
 # Verify we have what we want
 print(text)
@@ -91,7 +97,7 @@ text = clean_extracted_text(text)
 uuid = str(uuid4())
 new_row = {
             'GUID': uuid,
-            'Name': file_name, 
+            'Name': url, 
             'Link': 'Link', ##detritus, leave alone
             'Tokens': num_tokens_from_string(text), 
             'Text': text,
@@ -110,6 +116,6 @@ question = 'what does this letter say about the proposed structure for retail au
 ask(question)
 ```
 
-Obviously this could be coded into a webite etc - for now you can just enter questions into python and run over and over.
+This could be coded into a webite etc - for now you can just enter questions into python and run over and over.
 
 
